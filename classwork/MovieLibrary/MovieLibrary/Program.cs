@@ -22,7 +22,7 @@ namespace MovieLibrary
                 // case state metn  -->  case E ; S ;
                 // default statement  --> defaule : S ;
 
-                // case label rules
+                // case label  (' ') rules
                 // must be constant values    literals or simeple expressions 
                 // must be uniwue 
                 // can be string
@@ -32,6 +32,30 @@ namespace MovieLibrary
                 // every case statement must end with return or break 
                 // allowed if case labe has no statement  including semiolon
                 // styling rules 
+
+                //single statement excluding break no block statement needed
+                // multimple statements excluding reak should use block statement to  avoid errors
+              //  switch (10)
+              //  {
+                 //   case 10: S1; S2; S3; break;
+                 //   case 12:
+                 //   {
+                 //       int x; x=10;
+                 //       break;
+                 //   };
+                 //   case 13: SByte; break;
+               // }
+
+
+
+
+
+
+
+
+
+
+
            //   if (option =='A')
             //      AddMovie();
 
@@ -42,6 +66,8 @@ namespace MovieLibrary
 
            //   else
             //      DisplayError("Unknown command"); 
+
+                //switch replacves if 
             switch(option)
                 {
                     case 'A': AddMovie(); break;
@@ -79,16 +105,28 @@ namespace MovieLibrary
             {
                 string input = Console.ReadLine();
 
-         //     if (input == "A" || input == "a")
-          //        return 'A';
-         //     else if (input == "Q" || input == "q")
-          //        return 'Q';
-          //    else if (input == "V" || input == "v")
-         //         return 'V';
+             // if (input == "A" || input == "a")
+                //  return 'A';
+             // else if (input == "Q" || input == "q")
+              //    return 'Q';
+             // else if (input == "V" || input == "v")
+              //    return 'V';
+              switch (input)
+              { // fallthrough allowed only here
+                    case "A": 
+                    case "a": return 'A';
+
+                    case "Q": 
+                    case "q": return 'Q';
+
+                    case "V": 
+                    case "v": return 'v';
 
 
+                }
 
-         /    DisplayError("Invalid option");
+
+                DisplayError("Invalid option");
             } while (true);
 
 
@@ -148,11 +186,14 @@ namespace MovieLibrary
             Console.WriteLine($"{title} ({releaseYear})");
             if (runLength > 0)
                 Console.WriteLine($"Running Time: {runLength} minutes");
-            Console.WriteLine(description);
-            Console.WriteLine(releaseYear);
-            Console.WriteLine(runLength);
-            Console.WriteLine(rating);
-            Console.WriteLine(isClassic);
+            if (!String.IsNullOrEmpty(rating))
+                Console.WriteLine($"MPAA Rating: {rating}");
+            Console.WriteLine($"Classic? {(isClassic ? 'Y' : 'N')}");
+
+            if(!String.IsNullOrEmpty(description))
+            Console.WriteLine(description);            
+            
+           
 
         }
         static bool ReadBoolean ()
@@ -198,7 +239,7 @@ namespace MovieLibrary
              // keep prompting till valid value
              //? value = 43.5 + 56; 
               //string input = Console.ReadLine();
-
+              // keyword var can only be used for local variables.  does not change  code
              var input = Console.ReadLine();
                 // converts string to int
                 // todo fix if not int
