@@ -56,6 +56,7 @@ namespace MovieLibrary
 
 
 
+
            //   if (option =='A')
             //      AddMovie();
 
@@ -94,7 +95,9 @@ namespace MovieLibrary
             //console .write(); does not  go new line
             //same as cout
             Console.WriteLine("Movie Library");   // string literal in dbl quotes
-            Console.WriteLine("----------");
+            //Console.WriteLine("----------");
+            Console.WriteLine("".PadLeft(20, ' '));
+            
 
             Console.WriteLine("A) dd Movie");
             Console.WriteLine("V) iew Movie");
@@ -208,13 +211,27 @@ namespace MovieLibrary
                 else if (input == "N" || input =="n")
                     return false;
                 //TODO: handle key value
+
+                // should use switch but will play around with comparison.
+                // if (input.ToUpper() == "Y")
+                //   return true;
+                else if (input == "N" || input == "n")
+                    // return false;
+
+                    // compare 3 
+                    if (string.Compare(input, "Y", true) == 0)
+                        return true;
+
+
+
+
                 DisplayError("Please enter either Y or N");
             } while (true);
             
 
         }
 
-
+        4
 
         // read value 
         static int Readint32 ( )
@@ -293,11 +310,11 @@ namespace MovieLibrary
             // /' single quote in character 
             // \x## hex equivilent
 
-            //string stringLiteral = "hello" + "world";
-            //  stringLiteral = "Hello\nWorld";
+            string stringLiteral = "hello" + "world";
+            stringLiteral = "Hello\nWorld";
             // verbatim sytax = escape sequence ignored 
-           // string filepath = "C;\\Temp\\test.txt";
-            //string filepath2 = @"C:\Temp\test.txt";
+            string filepath = "C;\\Temp\\test.txt";
+            string filepath2 = @"C:\Temp\test.txt";
 
             // empty string
 
@@ -362,6 +379,60 @@ namespace MovieLibrary
 
             decimal price = 8500;
             string priceString = price.ToString("C"); // 8500.00
+
+
+
+            //common string functions
+            //String.<function>
+            // <string>.<function>
+
+            int len = priceString.Length;   // gets lenth of string 
+
+            //casing
+            var name = "jon";
+            string upperName = name.ToUpper();  //upper case string 
+            string lowerName = name.ToLower();  // lower case string
+
+
+
+            //comparison 
+            // "a" == "A" //false
+            // int to bool functs 
+            // <0   means a < b
+            // >0 means a> b
+            var areEqualStrings1 = name.CompareTo("bob") == 0;  // 2.sting.compare to (string)   int case sensitive
+
+            // 3 Stiring.Compare (str, str) int
+            // String.Compare(str, str, bool )   int 
+            var areEqualStrings2 = String.Compare(name, "bob", true) == 0; // case sens
+
+
+
+            // padding / trimming 
+            // <string>.Trim     string with all whitespace removed from front to back 
+            // <string>.Trimstart() / trimend()
+
+            // <string.Padleft(width) / padRight(width)    adds spaces untill givin width
+            string trimmedString = name.Trim();
+
+            string trimmedPath = @"C:\Temp\test\folder1".Trim('\\', ' ', '\t');
+
+
+            string paddedString = name.PadLeft(10);
+
+
+            //manipulate string 
+           string world = "Hello World".Substring(6);
+            string wor = "Hello World".Substring(6, 3);
+                int index = "Hello World".IndexOf(' ');
+
+
+            //matching
+            bool startswithslash = @"\Temp\test.txt".StartsWith('\\');
+            bool endsWithSlash = @"\Temp\test.txt".EndsWith('\\');
+
+
+
         }
         void DemoExpressions ()
 
@@ -420,23 +491,31 @@ namespace MovieLibrary
 
 
             result = Readint32();
-            result = Int32.Parse("123"); // use for functions   formal name      these are same         // result = int32.Parse("123");  
+            result = Int32.Parse("123");
 
-            // primitive types in .net map to framework types 
-            //int  Int32
-            //double Double
-            //short  Int16
-            //bool   Boolean
-            //char  Char
-            //languages cannot change primitive type
 
+
+            //primitive types in .net map to framework types  ( type aliasing)  formal names below 
+            //int   -> int 32
+            //double -> Double
+            //short -> Int16
+            //bool   -> Boolean
+            //char -> Char
+
+            int int1 = 10;
+            Int32 int2 = 20;                   /// these 3 are the same 
+            int1 = int2;
+
+           // result = int.Parse("123)");  // Int32.Parse("123");   same thing 
+            
+        
 
         }  
 
             // input parameter - tname 
             // input/output parameter - ref T name 
             // output  - function caller provides space but the functrion provides the value
-            void foo ( int inputParemeter, ref double ioParameter, out bool result )
+            void foo ( int inputParmeter, ref double ioParameter, out bool result )
         {
             result = false;
         }
