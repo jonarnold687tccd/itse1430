@@ -217,7 +217,7 @@ namespace MovieLibrary
                 //   return true;
                 else if (input == "N" || input == "n")
                     // return false;
-
+                    
                     // compare 3 
                     if (string.Compare(input, "Y", true) == 0)
                         return true;
@@ -231,7 +231,7 @@ namespace MovieLibrary
 
         }
 
-        4
+        
 
         // read value 
         static int Readint32 ( )
