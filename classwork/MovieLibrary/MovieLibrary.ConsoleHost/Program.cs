@@ -5,13 +5,13 @@
  * */
 
 using System;
-
-namespace MovieLibrary
+// renamed to match project name
+namespace MovieLibrary.ConsoleHost
 {
-    class Program
+    class Program  // MovieLibrary.Program
     {
         static void Main ()  // sring[] args)
-        {
+        {// fully qualified type name  System.Boolean   [namespace] [type]
             bool done = false;
             do
             {
