@@ -167,8 +167,19 @@ namespace MovieLibrary.ConsoleHost
 
         
 
-        {     // new type();
-            Movie movie = new Movie(); 
+        {   
+            // object creation 
+            // 1. allocates mem to store class fields
+            // 2. all fields are initialied to default or field initializer
+            // 3. calls constructor 
+            // only 1 constructor will ever be called 
+            
+            // new type();
+            // Movie* movie = new Movie
+            Movie movie;
+            movie = new Movie("Default Title");
+            movie = new Movie();
+
 
             
 
@@ -185,7 +196,7 @@ namespace MovieLibrary.ConsoleHost
              movie.Description = Console.ReadLine();
 
             Console.Write("Enter a release year: ");
-             movie.ReleaseYear = Readint32(1900);
+             movie.ReleaseYear = Readint32(Movie.MinimumReleaseYear);
 
             Console.Write("enter a time in minutes: ");
              movie.RunLength = Readint32(-1);
@@ -660,10 +671,56 @@ namespace MovieLibrary.ConsoleHost
             // data to collect 
             // title, genre, release year,genre,actors,tuntime,director ,rating
             // title, genre, release year,genre,actors,tuntime,director ,rating
-            #endregion 
+            
+            
+            
         }
+        static void DemoTypeChecking ()
+        {
+            // type checking  - programmer determinign type of expression 
+            // type casting = programmer tells compiler type of expression 
+            // tyep coercion - cmpiler determines type of expression 
+
+            double payRate = 7.5;
+            int pay;
+            // type cheking 
+            // 1. c style cast  = (type)expression   dont do this 
+            // crashes if invalid 
+            // always compiler verified
+
+            pay = (int)payRate;   // dont do this 
+
+            // 2. as operator  ->   expression as type 
+            // converts an expression to a given type  if valid or null otherwise 
+            // only works with classes 
+            object m = null;
+            Program p;
+            //p = (Program)m;
+            p = m as Program; // at runtime if m is compatible with program, returns m as a program else returns null
+            if (p != null)
+            {
+                // do somethin with result
+            };
+
+             //   3. the is operator  =  expression is tpe   -> bool
+             //   type checking not casting 
+             //  works with all types 
+             if(m is Program)
+            {
+                p = (Program)m;
+            }
+
+             // preferred approave 
+             // 4. pattern matching operator -->  expresion is type    identifier on end -> bool ( returns bool value
+             //             bool TryParse(out var result)
+             if (m is Program prog)
+            {
+                // prog is program
+            }
+        }
+        #endregion
     }
-   
+
 }
 // identifier rules 
 // start with letter or underscore

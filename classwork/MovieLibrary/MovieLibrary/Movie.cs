@@ -21,7 +21,7 @@ namespace MovieLibrary
     //internal - ( default for types)    only usable in definfing assembly
 
     // class declaration : = [modifies] class identifier {members*}
-    // class- members ->  field   \ method | prp[erties
+    // class- members ->  field   \ method | properties | ctor
     // field is a variable declaration    all the static things below
     //field = [modifers] T identifier [ = E];
     // method -->  [modifiers] (T | void) identifier ( [parameters] ) {function body}    T = return type
@@ -37,7 +37,33 @@ namespace MovieLibrary
 
 
     public class Movie   // now usable by anyone  since it now has public in front of it
-    {
+    {   
+        // constructors not needed here just for demo  
+
+        // constructors -  creat a instance of the type 
+        // should only do bear minimal to create a instance 
+        // method declaration with no return type and name is always the type name
+        // 
+        public Movie()   // default constructor
+        {
+            
+            // use a constructor only when a field initializers will not work 
+            // 1. non primitive field that requires complex  initialization 
+            // 2. on field relies on the value of another field
+            //  (deprecialted) allow creating and setting the most common properties 
+            // 4. allow setting of properties that are anot writable 
+
+            // initialized  fields that cannot be initialized using the field initializer syntax 
+            _description = _title;
+        }
+        // allows you to create th instance and set a common property all at once 
+        public Movie (string title)
+        {
+            _title = title;
+        }
+
+
+
 
         // methods = provide functionality to a class (functions)
         // sample function below 
@@ -162,13 +188,14 @@ namespace MovieLibrary
                 // func name is always property name  in this case title
                 // neverhas parameters
             get {  // return title if not null  or empty string other wise 
-                return (_title != null) ? _title : "";
-
+                   //return (_title != null) ? _title : "";
+                return _title ?? "";
             }
 
             //setter    returns void always        ( string value)         
             set {
-                _title = value;
+                // _title = (value != null) ? value.Trim() : null;                  // these 2 are equivilent 
+                _title = value?.Trim() ?? "";
             }
         }
 
@@ -180,45 +207,95 @@ namespace MovieLibrary
         // fields cannot be initialiex to another fields value
         // fields should always be preceded by a underscore
         // never expose a field publicly
+
+
+        // null handling 
+        // null colescing operator  =  expression  ?? expression 
+        // finds first  non null value
+        // equiv to   (expression 1 != null) ? e1 : e2
+        // left associative, can be combined   example ( E1 ?? E2 ?? E3)
+        // cam still return null
+        // null conditional operator =  expression ?. member
+        // evaluates expression an if insrtanc is not null, invokes member  or skips if it is 
+        // ecprssion is changed to nullabler e   works with all types 
+        // exmple    int hours();; instance?.Hours()  -> type of expression is int  or null 
+
+
+
         /// <summary>gets or sets the title.</summary>
         private string _title = "";
 
         public string Description
         {
-            get { return (_description != null) ? _description : ""; }
+           // get { return (_description != null) ? _description : ""; }
+            get { return _description ?? ""; }
             set { _description = value; }
         }
         private string _description = "";
 
-        public int ReleaseYear
-        {
-            get { return _releaseYear; }
-            set { _releaseYear  = value; }
-        }
-        private int _releaseYear = 1900;
+        //public int ReleaseYear
+        //{
+        //    get { return _releaseYear; }
+        //    set { _releaseYear = value; }
+        //}
+        // private int _releaseYear = 1900;
+      
 
-        public int RunLength
-        {
-         get { return _runLength;}
-         set { _runLength = value;}
-        }
-         private int _runLength;
-        
+
+        public int ReleaseYear { get; set; } = MinimumReleaseYear;       //1900
+
+
+
+
+        //public int RunLength   // full property syntax
+         //{
+        // get { return _runLength;}
+        // set { _runLength = value;}
+        // }
+        // private int _runLength;
+
+        public int RunLength { get; set; }
+                // auto  property syntax compiler will auto gen full property
+                // if you ont need to o anything with get set you cna use auto  otherwise use full
+                // doesnt work on strings
         public string Rating
-        { 
-            get { return (_rating  != null) ? _rating : ""; }
+        {
+            //get { return (_rating  != null) ? _rating : ""; }
+            get { return _rating ?? ""; }
             set { _rating = value; }
         }
            private string _rating = "";
+           public bool IsClassic { get; set; }
+       // {
+        //    get { return _isClassic; }
+        //    set { _isClassic = value; }
+        //}
+    // private bool _isClassic;
 
-        public bool IsClassic
+        // auto propertis  can be getter or setter only if needed 
+        public int Age { get; }  // could say = a number 
+        //private readonly int_age;
+
+        // demo of mixed accessability
+        // can only be appied to either get ort set not both 
+        //  access modifier must be more restrictive than property 
+        public int RestrictedProperty
         {
-            get { return _isClassic; }
-            set { _isClassic = value; }
+            get;
+            private set;
         }
-     private bool _isClassic;
 
-     private string _note;
+        internal int InternalPropert { get; private set; }
+        // allowed to expose a field if const
+        // const   glorified named literal baked into usage at compile time 
+        //readonly - const named variable value referenced at runtime
+        public const int MinimumReleaseYear = 1900;
+        public readonly DateTime MinimumReleaseDate = new DateTime(1900, 1, 1);
+       //public int Age {set; } 
+       /// dont use const on a variable can potentially change use read only 
+
+
+    // private string _note;
     }  // _ will ensure it doents conflict with local variables or parameters
 }
 //data to collect  - title, genre, release year, actors, runtime , director, rating
