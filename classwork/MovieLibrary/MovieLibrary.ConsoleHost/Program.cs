@@ -4,15 +4,29 @@
  * sample Implementation
  * */
 
-using System;
+using System;//  bring into scope all of the types defined in the  givin namespace 
+ 
 // renamed to match project name
+namespace MovieLibrary
+{
+    namespace ConsoleHost
+    { }
+}
+
+
 namespace MovieLibrary.ConsoleHost
 {
-    class Program  // MovieLibrary.Program
+    class Program  // MovieLibrary.ConsoleHost.Program
     {
         static void Main ()  // sring[] args)
-        {// fully qualified type name  System.Boolean   [namespace] [type]
-            bool done = false;
+
+        {
+            
+            // fully qualified type name  System.Boolean   [namespace] [type]
+            //MovieLibrary.ConsoleHost.Boolean ( not foind   moves to 
+            //movieLibrary.Boolean (also not found)
+            //system.boolean (found)
+           bool done = false;  //boolean  wierd error here  when use boolean instead of bool
             do
             {
                 char option = DisplayMainMenu();
@@ -123,7 +137,7 @@ namespace MovieLibrary.ConsoleHost
                     case "q": return 'Q';
 
                     case "V": 
-                    case "v": return 'v';
+                    case "v": return 'V';
 
 
                 }
@@ -153,48 +167,73 @@ namespace MovieLibrary.ConsoleHost
 
         
 
-        {
+        {     // new type();
+            Movie movie = new Movie(); 
+
+            
+
+            // member access function 
+            // member - access  =  E . Member
+            
+
             //title,release year , run length min  desc rating
 
             Console.Write("Enter a title: ");
-             title = Console.ReadLine();
+             movie.Title = Console.ReadLine();
 
             Console.Write("enter a  option description:");
-             description = Console.ReadLine();
+             movie.Description = Console.ReadLine();
 
             Console.Write("Enter a release year: ");
-             releaseYear = Readint32(1900);
+             movie.ReleaseYear = Readint32(1900);
 
             Console.Write("enter a time in minutes: ");
-             runLength = Readint32(0);
+             movie.RunLength = Readint32(-1);
 
             Console.Write("enter a rating: ");
-             rating = Console.ReadLine();
+             movie.Rating = Console.ReadLine();
 
             Console.Write("is this a classic (Y/N)? ");
-             isClassic = ReadBoolean();
+             movie.IsClassic = ReadBoolean();
+            // validate movie
+            if (!movie.Validate(out var message ))
+            {
+                DisplayError($"invalid movie: {message}");
+                return;
+            };
+            // hiding the field movie 
+            // this.movie = movie;
+            _movie = movie;
 
+            var movie2 = new Movie();
+            movie2.Title = "Jaws 2";
+            movie2.ReleaseYear = 1930;
+            movie2.IsBlackAndWhite();
+            movie.IsBlackAndWhite();
+            //   movie.DoComplex(1970, true);
+
+            //readable not writable doesnt have a setter 
+            var age = movie.AgeInYears; 
+
+            // movie.AgeInYears = 10;   cant do this  no setter allowed
             ViewMovie();
         }
-        static string title;
-        static string description;
-        static int releaseYear;
-        static int runLength;
-        static string rating;
-        static bool isClassic;
+      
+
+         // only allowed to use _ in field names 
         static void ViewMovie ()
         {
 
             //TODO: format
-            Console.WriteLine($"{title} ({releaseYear})");
-            if (runLength > 0)
-                Console.WriteLine($"Running Time: {runLength} minutes");
-            if (!String.IsNullOrEmpty(rating))
-                Console.WriteLine($"MPAA Rating: {rating}");
-            Console.WriteLine($"Classic? {(isClassic ? 'Y' : 'N')}");
+            Console.WriteLine($"{_movie.Title} ({_movie.ReleaseYear})");
+            if (_movie.RunLength > 0)
+                Console.WriteLine($"Running Time: {_movie.RunLength} minutes");
+            if (!String.IsNullOrEmpty(_movie.Rating))
+                Console.WriteLine($"MPAA Rating: {_movie.Rating}");
+            Console.WriteLine($"Classic? {(_movie.IsClassic ? 'Y' : 'N')}");
 
-            if(!String.IsNullOrEmpty(description))
-            Console.WriteLine(description);            
+            if(!String.IsNullOrEmpty(_movie.Description))
+            Console.WriteLine(_movie.Description);            
             
            
 
@@ -291,7 +330,7 @@ namespace MovieLibrary.ConsoleHost
         {
             Console.WriteLine(message);
         }
-
+        static Movie _movie;
 
         #region Demo Code
         void DemoString ()
